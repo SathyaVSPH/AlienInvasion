@@ -1,5 +1,6 @@
 import sys, pygame
 from settings import Settings
+from ship import Ship
 
 class AlienInvasion:
 
@@ -11,6 +12,9 @@ class AlienInvasion:
         '''Initialising the screen attributes for the objects'''
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption('Alien Invasion')
+
+        '''Initiating the ship and providing the necessary resources'''
+        self.ship = Ship(self)
 
         '''Initialising the clock to lock frame rate'''
         self.clock = pygame.time.Clock()
@@ -24,6 +28,10 @@ class AlienInvasion:
                     sys.exit()
             '''Fills the screen with given colour'''
             self.screen.fill(self.settings.bg_colour)
+
+            '''Positioning ship'''
+            self.ship.blitme()
+
             pygame.display.flip()
             '''Capping to 60 fps'''
             self.clock.tick(60)
