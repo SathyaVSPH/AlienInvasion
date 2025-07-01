@@ -1,8 +1,9 @@
 import pygame
+from settings import Settings
 
 '''This module handles all the functions related to ship image'''
-class Ship:
 
+class Ship:
     def __init__(self, ai_obj):
         '''Providing the screen and rect to the ship'''
         self.ship_screen = ai_obj.screen
@@ -20,17 +21,35 @@ class Ship:
         self.mvoing_down = False
         self.moving_left = False
         self.moving_right = False
+
+        '''Initialising Settings'''
+        self.ship_settings = Settings()
     
+        '''Converting to float to change the speed'''
+        self.x = float(self.ship_image_rect.x)
+        self.y = float(self.ship_image_rect.y)
+
     def update_ship(self):
         '''Adds the ability to move the ship'''
         if self.moving_up:
-            self.ship_image_rect.y -= 1
+            #self.ship_image_rect.y -= 1
+            self.y -= self.ship_settings.ship_speed
+
         if self.mvoing_down:
-            self.ship_image_rect.y += 1
+            #self.ship_image_rect.y += 1
+            self.y += self.ship_settings.ship_speed
+            
         if self.moving_left:
-            self.ship_image_rect.x -= 1
+            #self.ship_image_rect.x -= 1
+            self.x -= self.ship_settings.ship_speed
+
         if self.moving_right:
-            self.ship_image_rect.x += 1
+            #self.ship_image_rect.x += 1
+            self.x += self.ship_settings.ship_speed
+
+        '''Assigning back the values to the required variable'''
+        self.ship_image_rect.x = int(self.x)
+        self.ship_image_rect.y = int(self.y)
 
     def blitme(self):
         '''Drawing the ship over the surface'''
