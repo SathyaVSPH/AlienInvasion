@@ -3,6 +3,7 @@ from settings import Settings
 from ship import Ship
 from bullet import Bullet
 
+
 class AlienInvasion:
     '''This class handles all the events related to this game'''
     
@@ -37,9 +38,13 @@ class AlienInvasion:
             '''Updates the positon of the bullets at each iteration'''
             self.bullets.update()
 
+            '''Remove bullets outside territory'''
+            self._remove_bullets()
+            
             '''Updates the screen with the changes'''
             self._update_screen()    
             
+
             '''Capping to 60 fps'''
             self.clock.tick(60)
     
@@ -48,6 +53,12 @@ class AlienInvasion:
         new_bullet = Bullet(self)
         #adding the new bullet with its attributes into the self.bullets container
         self.bullets.add(new_bullet)
+
+    def _remove_bullets(self):
+        for bullet in self.bullets.copy():
+            if bullet.bullet_rect.bottom <= 0:
+                self.bullets.remove(bullet)
+            #print(len(self.bullets))
 
 
     def _update_screen(self):

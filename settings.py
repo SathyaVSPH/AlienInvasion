@@ -17,4 +17,5 @@ class Settings:
         self.bullet_width = 4
         self.bullet_height = 12
         self.bullet_speed = 4
+        self.max_bullets = 7
         
