@@ -20,6 +20,7 @@ class AlienInvasion:
         '''Initialising the clock to lock frame rate'''
         self.clock = pygame.time.Clock()
 
+
     def runGame(self):
         '''Game runs by executing the while loop'''
         while True:
@@ -41,6 +42,7 @@ class AlienInvasion:
             '''Capping to 60 fps'''
             self.clock.tick(60)
     
+
     def _check_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -52,6 +54,7 @@ class AlienInvasion:
             elif event.type == pygame.KEYUP:
                 self._keyup_events(event)
 
+
     def _keydown_events(self, event):
         if event.key == pygame.K_UP:
             self.ship.moving_up = True
@@ -62,6 +65,7 @@ class AlienInvasion:
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = True
     
+
     def _keyup_events(self, event):
         if event.key == pygame.K_UP:
             self.ship.moving_up = False
@@ -71,6 +75,7 @@ class AlienInvasion:
             self.ship.moving_left = False
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = False
+
 
 if __name__ == '__main__':
     ai = AlienInvasion()

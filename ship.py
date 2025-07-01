@@ -31,19 +31,19 @@ class Ship:
 
     def update_ship(self):
         '''Adds the ability to move the ship'''
-        if self.moving_up:
+        if self.moving_up and self.ship_image_rect.top > 0:
             #self.ship_image_rect.y -= 1
             self.y -= self.ship_settings.ship_speed
 
-        if self.mvoing_down:
+        if self.mvoing_down and self.ship_image_rect.bottom < self.ship_screen_rect.bottom:
             #self.ship_image_rect.y += 1
             self.y += self.ship_settings.ship_speed
             
-        if self.moving_left:
+        if self.moving_left and self.ship_image_rect.x > 0:
             #self.ship_image_rect.x -= 1
             self.x -= self.ship_settings.ship_speed
 
-        if self.moving_right:
+        if self.moving_right and self.ship_image_rect.right < self.ship_screen_rect.right:
             #self.ship_image_rect.x += 1
             self.x += self.ship_settings.ship_speed
 
