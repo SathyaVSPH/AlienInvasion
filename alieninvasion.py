@@ -49,10 +49,11 @@ class AlienInvasion:
             self.clock.tick(60)
     
     def _fire_bullets(self):
-        #instantiating a bullet from the Bullet Class
-        new_bullet = Bullet(self)
-        #adding the new bullet with its attributes into the self.bullets container
-        self.bullets.add(new_bullet)
+        if len(self.bullets) < self.settings.max_bullets:
+            #instantiating a bullet from the Bullet Class
+            new_bullet = Bullet(self)
+            #adding the new bullet with its attributes into the self.bullets container
+            self.bullets.add(new_bullet)
 
     def _remove_bullets(self):
         for bullet in self.bullets.copy():
