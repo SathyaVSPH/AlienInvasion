@@ -30,18 +30,24 @@ class AlienInvasion:
             '''Updates the position of the ship at each instance'''
             self.ship.update_ship()
             
-            '''Fills the screen with given colour'''
-            self.screen.fill(self.settings.bg_colour)
-
-            '''Positioning ship'''
-            self.ship.blitme()
-
-            '''Draws the changes in the screen'''
-            pygame.display.flip()
+            '''Updates the screen with the changes'''
+            self._update_screen()    
             
             '''Capping to 60 fps'''
             self.clock.tick(60)
     
+    
+    def _update_screen(self):
+        
+        '''Fills the screen with given colour'''
+        self.screen.fill(self.settings.bg_colour)
+
+        '''Positioning ship'''
+        self.ship.blitme()
+
+        '''Draws the changes in the screen'''
+        pygame.display.flip()
+
 
     def _check_events(self):
         for event in pygame.event.get():
@@ -64,6 +70,8 @@ class AlienInvasion:
             self.ship.moving_left = True
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = True
+        if event.key == pygame.K_q:
+            sys.exit()
     
 
     def _keyup_events(self, event):

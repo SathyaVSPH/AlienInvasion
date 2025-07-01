@@ -11,3 +11,10 @@ class Settings:
         
         #Ship Settings
         self.ship_speed = 2.5
+
+        #Bullet Settings
+        self.bullet_colour = (60, 60, 60)
+        self.bullet_width = 4
+        self.bullet_height = 12
+        self.bullet_speed = 4
+        
