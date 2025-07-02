@@ -25,7 +25,8 @@ class AlienInvasion:
 
         '''Instantitating the alien via sprite'''
         self.aliens = pygame.sprite.Group()
-
+        self._create_aliens()
+        
         '''Initialising the clock to lock frame rate'''
         self.clock = pygame.time.Clock()
 
@@ -45,8 +46,8 @@ class AlienInvasion:
             '''Remove bullets outside territory'''
             self._remove_bullets()
             
-            #create aliens fleet
-            self._create_aliens()
+            #create aliens fleet. This must be placed in init to prevent recreating the fleets 60 times per iteration
+            #self._create_aliens()
 
             '''Updates the screen with the changes'''
             self._update_screen()    
@@ -54,33 +55,51 @@ class AlienInvasion:
 
             '''Capping to 60 fps'''
             self.clock.tick(60)
-    
+
+
     def _create_aliens(self):
         #instantiating the first alien
         first_alien = Alien(self)
         
-        #assigning the width of the alien rectangle
-        first_alien_width = first_alien.rect.width
+        #assigning the width and height of the alien rectangle
+        first_alien_width, first_alien_height = first_alien.rect.size
 
-        #initiating current_x for the while loop
-        current_x = first_alien_width
+        #initiating current positions for the while loop
+        current_x, current_y = first_alien_width, first_alien_height
         
-        while current_x < (self.settings.screen_width - 2*first_alien_width):
-            '''This conditon helps in preventing the alien to be placed at the right most edge'''
-            #initiating the next alien
-            new_alien = Alien(self)
+        while current_y < (self.settings.screen_height - 3 * first_alien_height):
+
+            while current_x < (self.settings.screen_width - 2*first_alien_width):
+                '''This conditon helps in preventing the alien to be placed at the right most edge'''
+                #refactoring
+
+                #places the alien horizontally            
+                self._aliens_fleet(current_x, current_y)
+
+                #incrementing so that each alien is spaced with a gap of alien's width
+                current_x += 2 * first_alien_width
+            current_x = first_alien_width
+            current_y += 2 * first_alien_height
+
+
+    def _aliens_fleet(self, current_x, current_y):
+        #initiating the next alien
+        new_alien = Alien(self)
             
-            #positioning at the end of the first alien
-            new_alien.x = current_x
+        #positioning at the end of the first alien
+        new_alien.x = current_x
+        
+        #positioning at the next line
+        new_alien.y = current_y
 
-            #positioning the rectangle at the end of the first alien
-            new_alien.rect.x = current_x
+        #positioning the rectangle at the end of the first alien
+        new_alien.rect.x = current_x
 
-            #adding the new alien to the fleet
-            self.aliens.add(new_alien)
+        #positioning the rectange at the next line
+        new_alien.rect.y = current_y
 
-            #incrementing so that each alien is spaced with a gap of alien's width
-            current_x += 2 * first_alien_width
+        #adding the new alien to the fleet
+        self.aliens.add(new_alien)
 
 
     def _fire_bullets(self):
@@ -89,6 +108,7 @@ class AlienInvasion:
             new_bullet = Bullet(self)
             #adding the new bullet with its attributes into the self.bullets container
             self.bullets.add(new_bullet)
+
 
     def _remove_bullets(self):
         for bullet in self.bullets.copy():

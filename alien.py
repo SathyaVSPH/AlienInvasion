@@ -22,3 +22,4 @@ class Alien(Sprite):
 
         #converting x attribute to float for facilitating speed control
         self.x = float(self.rect.x)
+        self.y = float(self.rect.y)
