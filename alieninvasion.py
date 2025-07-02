@@ -56,8 +56,31 @@ class AlienInvasion:
             self.clock.tick(60)
     
     def _create_aliens(self):
-        new_alien = Alien(self)
-        self.aliens.add(new_alien)
+        #instantiating the first alien
+        first_alien = Alien(self)
+        
+        #assigning the width of the alien rectangle
+        first_alien_width = first_alien.rect.width
+
+        #initiating current_x for the while loop
+        current_x = first_alien_width
+        
+        while current_x < (self.settings.screen_width - 2*first_alien_width):
+            '''This conditon helps in preventing the alien to be placed at the right most edge'''
+            #initiating the next alien
+            new_alien = Alien(self)
+            
+            #positioning at the end of the first alien
+            new_alien.x = current_x
+
+            #positioning the rectangle at the end of the first alien
+            new_alien.rect.x = current_x
+
+            #adding the new alien to the fleet
+            self.aliens.add(new_alien)
+
+            #incrementing so that each alien is spaced with a gap of alien's width
+            current_x += 2 * first_alien_width
 
 
     def _fire_bullets(self):

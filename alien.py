@@ -10,8 +10,8 @@ class Alien(Sprite):
         #initialising the screen and other attributes to an alien object
         self.alien_screen = ai_obj.screen
 
-        '''Since we're using sprite's default draw, we should implement image and rect 
-        rather than our own names'''
+        '''Since we're using sprite's default draw method, we should implement image and rect 
+        rather than our own attribute names'''
         #providing alien image
         self.image = pygame.image.load('images/alien.bmp')
         self.rect = self.image.get_rect()
