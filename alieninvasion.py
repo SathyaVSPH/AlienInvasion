@@ -42,6 +42,8 @@ class AlienInvasion:
             
             '''Updates the positon of the bullets at each iteration'''
             self.bullets.update()
+            
+            collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True) 
 
             #Updates the position of the aliens
             self._update_aliens()
@@ -130,7 +132,7 @@ class AlienInvasion:
 
     def _remove_bullets(self):
         for bullet in self.bullets.copy():
-            if bullet.bullet_rect.bottom <= 0:
+            if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
             #print(len(self.bullets))
 
