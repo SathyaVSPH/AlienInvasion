@@ -2,6 +2,7 @@ import sys, pygame
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
+from alien import Alien
 
 
 class AlienInvasion:
@@ -22,6 +23,9 @@ class AlienInvasion:
         '''Instantiating the bullets via sprite'''
         self.bullets = pygame.sprite.Group()
 
+        '''Instantitating the alien via sprite'''
+        self.aliens = pygame.sprite.Group()
+
         '''Initialising the clock to lock frame rate'''
         self.clock = pygame.time.Clock()
 
@@ -41,6 +45,9 @@ class AlienInvasion:
             '''Remove bullets outside territory'''
             self._remove_bullets()
             
+            #create aliens fleet
+            self._create_aliens()
+
             '''Updates the screen with the changes'''
             self._update_screen()    
             
@@ -48,6 +55,11 @@ class AlienInvasion:
             '''Capping to 60 fps'''
             self.clock.tick(60)
     
+    def _create_aliens(self):
+        new_alien = Alien(self)
+        self.aliens.add(new_alien)
+
+
     def _fire_bullets(self):
         if len(self.bullets) < self.settings.max_bullets:
             #instantiating a bullet from the Bullet Class
@@ -73,6 +85,9 @@ class AlienInvasion:
         #we are looping over the added bullets to draw the bullets in the screen
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+
+        #drawing the alien using default draw of sprite group
+        self.aliens.draw(self.screen)
 
         '''Draws the changes in the screen'''
         pygame.display.flip()
