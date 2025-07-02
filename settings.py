@@ -20,4 +20,7 @@ class Settings:
         self.max_bullets = 7
 
         #Alien Settings
-        self.alien_speed = 3        
+        self.alien_speed = 3
+        self.alien_down_speed = 1
+        self.alien_fleet_direction = 1 #1 for towards right and -1 for left
+

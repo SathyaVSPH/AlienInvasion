@@ -60,7 +60,20 @@ class AlienInvasion:
             self.clock.tick(60)
 
     def _update_aliens(self):
+        self._fleet_edge_check()
         self.aliens.update()
+
+    def _fleet_edge_check(self):
+
+        for alien in self.aliens.sprites():
+            if alien.edge_check:
+                self._change_fleet_direction()
+                break
+
+    def _change_fleet_direction(self):
+        for alien in self.aliens.sprites():
+            alien.rect.y += self.settings.alien_down_speed
+        self.settings.alien_fleet_direction *= -1
 
     def _create_aliens(self):
         #instantiating the first alien
