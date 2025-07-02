@@ -43,6 +43,9 @@ class AlienInvasion:
             '''Updates the positon of the bullets at each iteration'''
             self.bullets.update()
 
+            #Updates the position of the aliens
+            self._update_aliens()
+
             '''Remove bullets outside territory'''
             self._remove_bullets()
             
@@ -56,6 +59,8 @@ class AlienInvasion:
             '''Capping to 60 fps'''
             self.clock.tick(60)
 
+    def _update_aliens(self):
+        self.aliens.update()
 
     def _create_aliens(self):
         #instantiating the first alien

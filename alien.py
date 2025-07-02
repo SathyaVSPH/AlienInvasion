@@ -9,6 +9,7 @@ class Alien(Sprite):
 
         #initialising the screen and other attributes to an alien object
         self.alien_screen = ai_obj.screen
+        self.alien_settings = ai_obj.settings
 
         '''Since we're using sprite's default draw method, we should implement image and rect 
         rather than our own attribute names'''
@@ -23,3 +24,8 @@ class Alien(Sprite):
         #converting x attribute to float for facilitating speed control
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
+    
+    def update(self):
+        self.x += self.alien_settings.alien_speed
+        self.rect.x = self.x
+        
