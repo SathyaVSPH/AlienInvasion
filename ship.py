@@ -11,10 +11,10 @@ class Ship:
         
         '''Providing the image and rect to the ship object'''
         self.ship_image = pygame.image.load('images/ship.bmp')
-        self.ship_image_rect = self.ship_image.get_rect()
+        self.rect = self.ship_image.get_rect()
 
         '''Positioning the ship object at the midbottom of the screen'''
-        self.ship_image_rect.midbottom = self.ship_screen_rect.midbottom
+        self.rect.midbottom = self.ship_screen_rect.midbottom
 
         '''Adding the movement flag'''
         self.moving_up = False
@@ -26,34 +26,34 @@ class Ship:
         self.ship_settings = Settings()
     
         '''Converting to float to change the speed'''
-        self.x = float(self.ship_image_rect.x)
-        self.y = float(self.ship_image_rect.y)
+        self.x = float(self.rect.x)
+        self.y = float(self.rect.y)
 
     def update_ship(self):
         '''Adds the ability to move the ship'''
-        if self.moving_up and self.ship_image_rect.top > 0:
+        if self.moving_up and self.rect.top > 0:
             #self.ship_image_rect.y -= 1
             self.y -= self.ship_settings.ship_speed
 
-        if self.mvoing_down and self.ship_image_rect.bottom < self.ship_screen_rect.bottom:
+        if self.mvoing_down and self.rect.bottom < self.ship_screen_rect.bottom:
             #self.ship_image_rect.y += 1
             self.y += self.ship_settings.ship_speed
             
-        if self.moving_left and self.ship_image_rect.x > 0:
+        if self.moving_left and self.rect.x > 0:
             #self.ship_image_rect.x -= 1
             self.x -= self.ship_settings.ship_speed
 
-        if self.moving_right and self.ship_image_rect.right < self.ship_screen_rect.right:
+        if self.moving_right and self.rect.right < self.ship_screen_rect.right:
             #self.ship_image_rect.x += 1
             self.x += self.ship_settings.ship_speed
 
         '''Assigning back the values to the required variable'''
-        self.ship_image_rect.x = int(self.x)
-        self.ship_image_rect.y = int(self.y)
+        self.rect.x = int(self.x)
+        self.rect.y = int(self.y)
 
     def blitme(self):
         '''Drawing the ship over the surface'''
-        self.ship_screen.blit(self.ship_image, self.ship_image_rect)
+        self.ship_screen.blit(self.ship_image, self.rect)
 
 
 

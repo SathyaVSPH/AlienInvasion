@@ -15,7 +15,7 @@ class Bullet(Sprite):
         self.rect = pygame.Rect(0, 0, self.bullet_settings.bullet_width, self.bullet_settings.bullet_height)
         
         #placing the bullet at the top center of the ship
-        self.rect.midtop = ai_obj.ship.ship_image_rect.midtop
+        self.rect.midtop = ai_obj.ship.rect.midtop
 
         #store the bullet speed in float
         self.y = float(self.rect.y)
