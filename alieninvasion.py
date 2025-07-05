@@ -43,7 +43,12 @@ class AlienInvasion:
             '''Updates the positon of the bullets at each iteration'''
             self.bullets.update()
             
-            collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True) 
+            collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+
+            #Adding aliens if the fleet is empty
+            if not self.aliens:
+                self.aliens.empty() #Destroy the existing bullets in sprite
+                self._create_aliens()
 
             #Updates the position of the aliens
             self._update_aliens()
@@ -74,7 +79,8 @@ class AlienInvasion:
 
     def _change_fleet_direction(self):
         for alien in self.aliens.sprites():
-            alien.rect.y += self.settings.alien_down_speed
+            alien.y += self.settings.alien_down_speed
+            alien.rect.y = alien.y
         self.settings.alien_fleet_direction *= -1
 
     def _create_aliens(self):
