@@ -29,6 +29,11 @@ class Ship:
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
 
+    def repos_ship(self):
+        self.rect.midbottom = self.ship_screen_rect.midbottom
+        self.x = float(self.rect.x)
+        self.y = float(self.rect.y)
+
     def update_ship(self):
         '''Adds the ability to move the ship'''
         if self.moving_up and self.rect.top > 0:

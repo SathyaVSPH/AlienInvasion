@@ -3,6 +3,7 @@ from settings import Settings
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+from time import sleep
 
 
 class AlienInvasion:
@@ -66,13 +67,28 @@ class AlienInvasion:
             '''Capping to 60 fps'''
             self.clock.tick(60)
 
+    def _reset_game(self):
+        self.aliens.empty()
+        self.bullets.empty()
+        self._create_aliens()
+        self.ship.repos_ship()
+        sleep(0.5) #Pause
+
+        #print('Ship hit!!!')
+
     def _update_aliens(self):
         self._fleet_edge_check()
         self.aliens.update()
+        self._collision_check()
 
+        
+    def _collision_check(self):
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
-            pass
-            #print('Ship hit!!!')
+            self._reset_game()    
+        for alien in self.aliens.sprites(): #aliens reaching bottom
+            if alien.rect.bottom >= self.settings.screen_height:
+                self._reset_game()
+                break
 
     def _fleet_edge_check(self):
 
