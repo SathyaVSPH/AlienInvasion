@@ -1,5 +1,6 @@
 import sys, pygame
 from settings import Settings
+from game_stats import GameStat
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
@@ -17,6 +18,12 @@ class AlienInvasion:
         '''Initialising the screen attributes for the objects'''
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption('Alien Invasion')
+
+        '''Instantiating the stats before the other game elements.'''
+        self.gameStat = GameStat(self)
+
+        #Game State
+        self.gameActive = True
 
         '''Initiating the ship and providing the necessary resources'''
         self.ship = Ship(self)
@@ -38,24 +45,26 @@ class AlienInvasion:
             '''each event only represents one event'''
             self._check_events()
 
-            '''Updates the position of the ship at each iteration'''
-            self.ship.update_ship()
-            
-            '''Updates the positon of the bullets at each iteration'''
-            self.bullets.update()
-            
-            collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+            if self.gameActive:
 
-            #Adding aliens if the fleet is empty
-            if not self.aliens:
-                self.aliens.empty() #Destroy the existing bullets in sprite
-                self._create_aliens()
+                '''Updates the position of the ship at each iteration'''
+                self.ship.update_ship()
+                
+                '''Updates the positon of the bullets at each iteration'''
+                self.bullets.update()
+                
+                collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
 
-            #Updates the position of the aliens
-            self._update_aliens()
+                #Adding aliens if the fleet is empty
+                if not self.aliens:
+                    self.bullets.empty() #Destroy the existing bullets in sprite
+                    self._create_aliens()
 
-            '''Remove bullets outside territory'''
-            self._remove_bullets()
+                #Updates the position of the aliens
+                self._update_aliens()
+
+                '''Remove bullets outside territory'''
+                self._remove_bullets()
             
             #create aliens fleet. This must be placed in init to prevent recreating the fleets 60 times per iteration
             #self._create_aliens()
@@ -68,13 +77,17 @@ class AlienInvasion:
             self.clock.tick(60)
 
     def _reset_game(self):
-        self.aliens.empty()
-        self.bullets.empty()
-        self._create_aliens()
-        self.ship.repos_ship()
-        sleep(0.5) #Pause
-
+        if self.gameStat.ship_remaining > 0:
+            self.gameStat.ship_remaining -= 1
+            self.aliens.empty()
+            self.bullets.empty()
+            self._create_aliens()
+            self.ship.repos_ship()
+            sleep(0.5) #Pause
         #print('Ship hit!!!')
+
+        else:
+            self.gameActive = False
 
     def _update_aliens(self):
         self._fleet_edge_check()

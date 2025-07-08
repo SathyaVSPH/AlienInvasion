@@ -11,7 +11,7 @@ class Settings:
         
         #Ship Settings
         self.ship_speed = 2.5
-        self.ship_limit = 3
+        self.ship_limit = 2
 
         #Bullet Settings
         self.bullet_colour = (60, 60, 60)
