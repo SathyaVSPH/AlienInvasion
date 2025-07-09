@@ -1,6 +1,7 @@
 import sys, pygame
 from settings import Settings
 from game_stats import GameStat
+from button import Button
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
@@ -13,6 +14,7 @@ class AlienInvasion:
     def __init__(self):
 
         '''Initialising Settings'''
+        pygame.init()
         self.settings = Settings()
 
         '''Initialising the screen attributes for the objects'''
@@ -23,7 +25,10 @@ class AlienInvasion:
         self.gameStat = GameStat(self)
 
         #Game State
-        self.gameActive = True
+        self.gameActive = False
+
+        """Instantiating play button"""
+        self.play_button = Button(self, 'Play')
 
         '''Initiating the ship and providing the necessary resources'''
         self.ship = Ship(self)
@@ -72,7 +77,6 @@ class AlienInvasion:
             '''Updates the screen with the changes'''
             self._update_screen()    
             
-
             '''Capping to 60 fps'''
             self.clock.tick(60)
 
@@ -191,6 +195,9 @@ class AlienInvasion:
         #drawing the alien using default draw of sprite group
         self.aliens.draw(self.screen)
 
+        if not self.gameActive:
+            self.play_button.draw_button()
+
         '''Draws the changes in the screen'''
         pygame.display.flip()
 
@@ -205,6 +212,11 @@ class AlienInvasion:
             
             elif event.type == pygame.KEYUP:
                 self._keyup_events(event)
+
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                if self.play_button.rect.collidepoint(mouse_pos):#clicked play button
+                    self.gameActive = True
 
 
     def _keydown_events(self, event):
