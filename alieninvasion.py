@@ -58,6 +58,7 @@ class AlienInvasion:
                 '''Updates the positon of the bullets at each iteration'''
                 self.bullets.update()
                 
+                #This removes the aliens that have been hit by the bullets
                 collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
 
                 #Adding aliens if the fleet is empty
@@ -83,15 +84,18 @@ class AlienInvasion:
     def _reset_game(self):
         if self.gameStat.ship_remaining > 0:
             self.gameStat.ship_remaining -= 1
-            self.aliens.empty()
-            self.bullets.empty()
-            self._create_aliens()
-            self.ship.repos_ship()
-            sleep(0.5) #Pause
-        #print('Ship hit!!!')
-
+            self._reset_components()
         else:
             self.gameActive = False
+            pygame.mouse.set_visible(True)
+
+    def _reset_components(self):
+        self.aliens.empty()
+        self.bullets.empty()
+        self._create_aliens()
+        self.ship.repos_ship()
+        sleep(0.5) #Pause
+        #print('Ship hit!!!')
 
     def _update_aliens(self):
         self._fleet_edge_check()
@@ -130,7 +134,7 @@ class AlienInvasion:
         #initiating current positions for the while loop
         current_x, current_y = first_alien_width, first_alien_height
         
-        while current_y < (self.settings.screen_height - 3 * first_alien_height):
+        while current_y < (self.settings.screen_height - 4 * first_alien_height):
 
             while current_x < (self.settings.screen_width - 2*first_alien_width):
                 '''This conditon helps in preventing the alien to be placed at the right most edge'''
@@ -215,8 +219,12 @@ class AlienInvasion:
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
-                if self.play_button.rect.collidepoint(mouse_pos):#clicked play button
+                button_clicked = self.play_button.rect.collidepoint(mouse_pos)#clicked play button
+                if button_clicked and not self.gameActive:
+                    self.gameStat.reset_stat()
                     self.gameActive = True
+                    self._reset_components()
+                    pygame.mouse.set_visible(False)
 
 
     def _keydown_events(self, event):
