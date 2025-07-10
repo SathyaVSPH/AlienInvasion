@@ -1,6 +1,7 @@
 import sys, pygame
 from settings import Settings
 from game_stats import GameStat
+from scoreboard import ScoreBoard
 from button import Button
 from ship import Ship
 from bullet import Bullet
@@ -23,6 +24,9 @@ class AlienInvasion:
 
         '''Instantiating the stats before the other game elements.'''
         self.gameStat = GameStat(self)
+
+        '''Instantiating Scoreboard'''
+        self.sb = ScoreBoard(self)
 
         #Game State
         self.gameActive = False
@@ -65,6 +69,7 @@ class AlienInvasion:
                 if not self.aliens:
                     self.bullets.empty() #Destroy the existing bullets in sprite
                     self._create_aliens()
+                    self._increase_speed()
 
                 #Updates the position of the aliens
                 self._update_aliens()
@@ -80,6 +85,12 @@ class AlienInvasion:
             
             '''Capping to 60 fps'''
             self.clock.tick(60)
+
+    def _increase_speed(self):
+        '''Increase difficulty'''
+        self.settings.alien_speed *= self.settings.speedup_scale
+        self.settings.bullet_speed *= self.settings.speedup_scale
+
 
     def _reset_game(self):
         if self.gameStat.ship_remaining > 0:
@@ -199,8 +210,13 @@ class AlienInvasion:
         #drawing the alien using default draw of sprite group
         self.aliens.draw(self.screen)
 
+        '''Place the scoreboard'''
+        self.sb.draw_sb()
+
+        #Play Button
         if not self.gameActive:
             self.play_button.draw_button()
+            self.settings.intialise_dynamic_settings()
 
         '''Draws the changes in the screen'''
         pygame.display.flip()

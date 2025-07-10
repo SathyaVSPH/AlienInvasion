@@ -17,10 +17,18 @@ class Settings:
         self.bullet_colour = (60, 60, 60)
         self.bullet_width = 4
         self.bullet_height = 12
-        self.bullet_speed = 7
         self.max_bullets = 7
 
         #Alien Settings
-        self.alien_speed = 3
         self.alien_down_speed = 0.2
         self.alien_fleet_direction = 1 #1 for towards right and -1 for left
+        
+        self.speedup_scale = 1.1
+        self.intialise_dynamic_settings()
+
+    def intialise_dynamic_settings(self):
+        '''Initialise Dynamic Settings'''
+        self.bullet_speed = 7
+        self.alien_speed = 3
+        
+        #self.ship_speed
