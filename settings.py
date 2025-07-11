@@ -23,11 +23,12 @@ class Settings:
         self.alien_down_speed = 0.2
         self.alien_fleet_direction = 1 #1 for towards right and -1 for left
         
-        self.speedup_scale = 1.1
+        self.speedup_scale = 1.5
         self.intialise_dynamic_settings()
 
         #Score Settings
         self.alien_points = 10
+        self.score_levelup = 10
 
     def intialise_dynamic_settings(self):
         '''Initialise Dynamic Settings'''

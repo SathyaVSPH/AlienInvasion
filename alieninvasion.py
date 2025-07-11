@@ -69,12 +69,14 @@ class AlienInvasion:
                     for aliens in collisions.values():
                         self.gameStat.score += self.settings.alien_points * len(aliens)
                         self.sb.prep_score()
+                        self.sb.check_highscore()
 
                 #Adding aliens if the fleet is empty
                 if not self.aliens:
                     self.bullets.empty() #Destroy the existing bullets in sprite
                     self._create_aliens()
                     self._increase_speed()
+                    self._increase_score()
 
                 #Updates the position of the aliens
                 self._update_aliens()
@@ -96,6 +98,8 @@ class AlienInvasion:
         self.settings.alien_speed *= self.settings.speedup_scale
         self.settings.bullet_speed *= self.settings.speedup_scale
 
+    def _increase_score(self):
+         self.settings.alien_points *= self.settings.score_levelup
 
     def _reset_game(self):
         if self.gameStat.ship_remaining > 0:
@@ -103,7 +107,8 @@ class AlienInvasion:
             self._reset_components()
         else:
             self.gameActive = False
-            self.gameStat.high_score = self.gameStat.score #High Score
+            self.sb.prep_score()
+            self.sb.check_highscore()
             self.sb.prep_highscore()
             self.gameStat.reset_stat()
             pygame.mouse.set_visible(True)
@@ -218,11 +223,8 @@ class AlienInvasion:
         #drawing the alien using default draw of sprite group
         self.aliens.draw(self.screen)
 
-        '''Place the scoreboard'''
-        self.sb.draw_sb()
-
-        #High Score Board
-        self.sb.draw_highsb()
+        '''Place the scoreboards'''
+        self.sb.draw_score()
 
         #Play Button
         if not self.gameActive:
@@ -251,6 +253,7 @@ class AlienInvasion:
                     self.gameStat.reset_stat()
                     self.gameActive = True
                     self._reset_components()
+                    self.sb.prep_score()
                     pygame.mouse.set_visible(False)
 
 

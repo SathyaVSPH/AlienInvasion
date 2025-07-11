@@ -16,7 +16,9 @@ class ScoreBoard:
         self.prep_highscore()
         
     def prep_score(self):
-        score = str(self.game_stat.score)
+        rounded_score = round(self.game_stat.score, -1)
+        score = str(f'{rounded_score:,}')
+    
         self.score_image = self.font.render(score, True, self.font_colour, self.settings.bg_colour)
         self.score_image_rect = self.score_image.get_rect()
 
@@ -31,8 +33,15 @@ class ScoreBoard:
         #positioning @ center
         self.high_score_image_rect.midtop = self.screen_rect.midtop
 
-    def draw_sb(self):
-        self.screen.blit(self.score_image, self.score_image_rect)
+    #def draw_sb(self):
+    def check_highscore(self):
+        if self.game_stat.score >= self.game_stat.high_score:
+            self.game_stat.high_score = self.game_stat.score
+            self.prep_highscore()
     
-    def draw_highsb(self):
+    #def draw_highsb(self):
+        
+
+    def draw_score(self):
+        self.screen.blit(self.score_image, self.score_image_rect)
         self.screen.blit(self.high_score_image, self.high_score_image_rect)
