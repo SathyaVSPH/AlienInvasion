@@ -65,6 +65,11 @@ class AlienInvasion:
                 #This removes the aliens that have been hit by the bullets
                 collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
 
+                if collisions:
+                    for aliens in collisions.values():
+                        self.gameStat.score += self.settings.alien_points * len(aliens)
+                        self.sb.prep_score()
+
                 #Adding aliens if the fleet is empty
                 if not self.aliens:
                     self.bullets.empty() #Destroy the existing bullets in sprite
@@ -98,6 +103,9 @@ class AlienInvasion:
             self._reset_components()
         else:
             self.gameActive = False
+            self.gameStat.high_score = self.gameStat.score #High Score
+            self.sb.prep_highscore()
+            self.gameStat.reset_stat()
             pygame.mouse.set_visible(True)
 
     def _reset_components(self):
@@ -212,6 +220,9 @@ class AlienInvasion:
 
         '''Place the scoreboard'''
         self.sb.draw_sb()
+
+        #High Score Board
+        self.sb.draw_highsb()
 
         #Play Button
         if not self.gameActive:

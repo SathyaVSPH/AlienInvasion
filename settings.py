@@ -26,6 +26,9 @@ class Settings:
         self.speedup_scale = 1.1
         self.intialise_dynamic_settings()
 
+        #Score Settings
+        self.alien_points = 10
+
     def intialise_dynamic_settings(self):
         '''Initialise Dynamic Settings'''
         self.bullet_speed = 7
