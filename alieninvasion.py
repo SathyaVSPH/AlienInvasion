@@ -77,6 +77,8 @@ class AlienInvasion:
                     self._create_aliens()
                     self._increase_speed()
                     self._increase_score()
+                    self.settings.current_level += 1
+                    self.sb.prep_level_display()
 
                 #Updates the position of the aliens
                 self._update_aliens()
@@ -129,7 +131,9 @@ class AlienInvasion:
         
     def _collision_check(self):
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
-            self._reset_game()    
+            self._reset_game()
+            self.sb.prep_ship()
+            
         for alien in self.aliens.sprites(): #aliens reaching bottom
             if alien.rect.bottom >= self.settings.screen_height:
                 self._reset_game()
@@ -230,6 +234,7 @@ class AlienInvasion:
         if not self.gameActive:
             self.play_button.draw_button()
             self.settings.intialise_dynamic_settings()
+            self.sb.prep_ship()
 
         '''Draws the changes in the screen'''
         pygame.display.flip()

@@ -26,6 +26,9 @@ class Settings:
         self.speedup_scale = 1.5
         self.intialise_dynamic_settings()
 
+        #Level Settings
+        self.current_level = 1
+
         #Score Settings
         self.alien_points = 10
         self.score_levelup = 10
